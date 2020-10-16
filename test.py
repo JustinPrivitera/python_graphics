@@ -10,6 +10,7 @@ import OpenGL.GLU as GLU
 width = 500
 height = 500
 x = 0
+flag = True;
 
 def iterate():
 	GL.glViewport(0, 0, width, height)
@@ -19,13 +20,24 @@ def iterate():
 	GL.glMatrixMode (GL.GL_MODELVIEW)
 	GL.glLoadIdentity()
 
+def motion():
+	global x, flag
+	if x > 100:
+		flag = False
+	if x < -100:
+		flag = True
+	if not flag:
+		x -= 0.01
+	else:
+		x += 0.01
+
 def render():
 	global x
 	GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT) # Remove everything from screen (i.e. displays all white)
 	GL.glLoadIdentity() # Reset all graphic/shape's position
 	iterate()
 	GL.glColor3f(3.0, 0.5, 0.0) # Set the color
-	x += 0.01
+	motion()
 	square(x) # Draw a square using our function
 	GLUT.glutSwapBuffers()
 
