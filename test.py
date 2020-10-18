@@ -11,12 +11,10 @@ import glfw
 
 width = 1400
 height = 1000
-x = 0
-flag = True;
 
 squares = []
 
-lastime = 0
+lasttime = 0
 
 def get_last_elapsed_time():
 	global lasttime
@@ -32,11 +30,19 @@ class vec3:
 		self.y = y
 		self.z = z
 
-	def __add__(self, other):
+	def __add__(self, other): # vector addition
 		return vec3(self.x + other.x, self.y + other.y, self.z + other.z)
 
-	def __mul__(self, sc):
+	def __radd__(self, other): # vector addition
+		return self._add__(other)
+
+	def __mul__(self, sc): # scalar multiplication
 		return vec3(self.x * sc, self.y * sc, self.z * sc)
+
+	def __rmul__(self, sc): # scalar multiplication
+		return self.__mul__(sc)
+
+	# make plus equals
 
 class square:
 	def __init__(self, pos, side_length, velocity, color):
@@ -60,7 +66,7 @@ class square:
 		self.collide()
 		self.pos = self.pos + self.velocity * frametime
 
-	def collide(self):
+	def collide(self): # collisions with wall
 		xbig = self.pos.x + self.side_length
 		xsmall = self.pos.x
 		ybig = self.pos.y + self.side_length
@@ -98,8 +104,6 @@ def update(frametime):
 		squares[i].update(frametime)
 
 def render():
-	global x, s1
-
 	frametime = get_last_elapsed_time()
 	update(frametime)
 
@@ -120,7 +124,7 @@ def init():
 	# glfw.init()
 	if not glfw.init():
 		return
-	lasttime = lastime = glfw.get_time()
+	lasttime = glfw.get_time()
 
 	make_squares(50)
 
@@ -139,4 +143,6 @@ def main():
 
 main()
 
-# gimme framerate, frametime to make things move consistently
+# add spin?
+# go 3d
+# add shaders
