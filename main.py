@@ -10,9 +10,10 @@ import OpenGL.GLU as GLU
 import glfw
 from vec3 import *
 from scene_objs import *
+import config
 
-width = 1400
-height = 1000
+# width = 1400
+# height = 1000
 
 squares = []
 
@@ -27,10 +28,10 @@ def get_last_elapsed_time():
 	return difference
 
 def iterate():
-	GL.glViewport(0, 0, width, height)
+	GL.glViewport(0, 0, config.width, config.height)
 	GL.glMatrixMode(GL.GL_PROJECTION)
 	GL.glLoadIdentity()
-	GL.glOrtho(0.0, width, 0.0, height, 0.0, 1.0)
+	GL.glOrtho(0.0, config.width, 0.0, config.height, 0.0, 1.0)
 	GL.glMatrixMode (GL.GL_MODELVIEW)
 	GL.glLoadIdentity()
 
@@ -63,11 +64,14 @@ def init():
 		return
 	lasttime = glfw.get_time()
 
-	squares = make_squares(50, width, height)
+	config.width = 1400
+	config.height = 1000
+
+	squares = make_squares(50)
 
 	GLUT.glutInit() # Initialize a glut instance which will allow us to customize our window
 	GLUT.glutInitDisplayMode(GLUT.GLUT_RGBA) # Set the display mode to be colored
-	GLUT.glutInitWindowSize(width, height)   # Set the width and height of your window
+	GLUT.glutInitWindowSize(config.width, config.height)   # Set the width and height of your window
 	GLUT.glutInitWindowPosition(0, 0)   # Set the position at which this windows should appear
 	
 

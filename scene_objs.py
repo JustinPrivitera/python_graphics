@@ -4,16 +4,15 @@ from random import *
 # import OpenGL
 import OpenGL.GL as GL
 from vec3 import *
+import config
 
 class square:
-	def __init__(self, pos, side_length, velocity, color, width, height):
+	def __init__(self, pos, side_length, velocity, color):
 		self.pos = pos # lower left corner
 		self.side_length = side_length
 		# self.center = vec3(self.pos.x + self.side_length / 2, self.pos.y + self.side_length / 2, self.pos.z)
 		self.velocity = velocity
 		self.color = color
-		self.width = width
-		self.height = height
 
 	def draw(self):
 		GL.glColor3f(self.color.x, self.color.y, self.color.z) # Set the color
@@ -30,22 +29,22 @@ class square:
 		self.pos = self.pos + self.velocity * frametime
 
 	def collide(self): # collisions with wall
-		if self.pos.x + self.side_length > self.width:
+		if self.pos.x + self.side_length > config.width:
 			self.velocity.x = -1 * abs(self.velocity.x)
 		if self.pos.x < 0:
 			self.velocity.x = abs(self.velocity.x)
-		if self.pos.y + self.side_length > self.height:
+		if self.pos.y + self.side_length > config.height:
 			self.velocity.y = -1 * abs(self.velocity.y)
 		if self.pos.y < 0:
 			self.velocity.y = abs(self.velocity.y)
 
-def make_squares(how_many, width, height):
+def make_squares(how_many):
 	squares = []
 	max_speed = 700
 	for i in range(0, how_many):
 		side_length = 100
-		position = vec3(random() * (width - side_length), random() * (height - side_length), 0)
+		position = vec3(random() * (config.width - side_length), random() * (config.height - side_length), 0)
 		velocity = vec3(((2 * random()) - 1) * max_speed, ((2 * random()) - 1) * max_speed, 0)
 		color = vec3(random(), random(), random())
-		squares.append(square(position, side_length, velocity, color, width, height))
+		squares.append(square(position, side_length, velocity, color))
 	return squares
