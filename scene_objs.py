@@ -7,17 +7,42 @@ from vec3 import *
 import config
 
 class geom_obj:
-	def __init__(self, pos, color):
-		self.pos = pos
+	def __init__(self, color):
 		self.color = color
 
-class square:
+	def update(self, frametime):
+		pass
+
+class triangle(geom_obj):
+	def __init__(self, a, b, c, velocity, color):
+		geom_obj.__init__(self, color)
+		self.a = a
+		self.b = b
+		self.c = c
+		self.velocity = velocity
+
+	def draw(self):
+		GL.glColor3f(self.color.x, self.color.y, self.color.z)
+		GL.glBegin(GL.GL_TRIANGLES)
+		GL.glVertex3f(self.a.x, self.a.y, self.a.z)
+		GL.glVertex3f(self.b.x, self.b.y, self.b.z)
+		GL.glVertex3f(self.c.x, self.c.y, self.c.z)
+		GL.glEnd()
+
+	def update(self, frametime):
+		self.a = self.a + self.velocity * frametime
+		self.b = self.b + self.velocity * frametime
+		self.c = self.c + self.velocity * frametime
+
+# supports wall collisions
+class square(geom_obj):
 	def __init__(self, pos, side_length, velocity, color):
+		geom_obj.__init__(self, color)
 		self.pos = pos # lower left corner
 		self.side_length = side_length
 		# self.center = vec3(self.pos.x + self.side_length / 2, self.pos.y + self.side_length / 2, self.pos.z)
 		self.velocity = velocity
-		self.color = color
+		# self.color = color
 
 	def draw(self):
 		GL.glColor3f(self.color.x, self.color.y, self.color.z) # Set the color

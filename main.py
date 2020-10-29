@@ -25,7 +25,7 @@ def get_last_elapsed_time():
 	actualtime = glfw.get_time()
 	difference = actualtime - lasttime
 	lasttime = actualtime
-	return difference	
+	return difference
 
 def update(frametime):
 	global shapes
@@ -53,42 +53,40 @@ def render():
 
 	GLUT.glutSwapBuffers()
 
+def init_geom():
+	global shapes
+	if (config.mode == 0):
+		a = vec3(100, 100, 0)
+		b = vec3(300, 100, 0)
+		c = vec3(200, 300, 0)
+		velocity = vec3(50,50,0)
+		color = vec3(0.8, 0.8, 0.0)
+		shapes.append(triangle(a, b, c, velocity, color))
+	elif (config.mode == 1):
+		shapes = make_squares(50)
+
 def init():
 	global lasttime
-	global shapes
-	# glfw.init()
 	if not glfw.init():
-		return
+		return False
 	lasttime = glfw.get_time()
 
 	config.width = 1400
 	config.height = 1000
 
-	if (config.mode == 1):
-		shapes = make_squares(50)
-
-	GLUT.glutInit() # Initialize a glut instance which will allow us to customize our window
-	GLUT.glutInitDisplayMode(GLUT.GLUT_RGBA) # Set the display mode to be colored
-	GLUT.glutInitWindowSize(config.width, config.height)   # Set the width and height of your window
-	GLUT.glutInitWindowPosition(0, 0)   # Set the position at which this windows should appear
-	
-
-def main():
 	# default setup
-	scene_name = "squares demo"
+	config.scene_name = "squares demo"
 	config.mode = 1
 
 	if (len(sys.argv) == 2):
 		if (sys.argv[1] == "0"):
-			scene_name = "hello triangle"
+			config.scene_name = "hello triangle"
 			config.mode = 0
-			print("not yet implemented")
-			return
 		elif (sys.argv[1] == "1"):
-			scene_name = "squares demo"
+			config.scene_name = "squares demo"
 			config.mode = 1
 		elif (sys.argv[1] == "2"):
-			scene_name = "galaxy demo"
+			config.scene_name = "galaxy demo"
 			config.mode = 2
 			print("not yet implemented")
 			return
@@ -96,9 +94,22 @@ def main():
 			print("scene does not exist")
 			return
 
-	init()
+	init_geom()
 
-	wind = GLUT.glutCreateWindow(scene_name) # Give your window a title
+	if not GLUT.glutInit(): # Initialize a glut instance which will allow us to customize our window
+		return False
+	GLUT.glutInitDisplayMode(GLUT.GLUT_RGBA) # Set the display mode to be colored
+	GLUT.glutInitWindowSize(config.width, config.height)   # Set the width and height of your window
+	GLUT.glutInitWindowPosition(0, 0)   # Set the position at which this windows should appear
+
+	return True
+
+def main():
+	if not init():
+		print("initialization failed")
+		return
+
+	window = GLUT.glutCreateWindow(config.scene_name) # Give your window a title
 	GLUT.glutDisplayFunc(render)  # Tell OpenGL to call the render method continuously
 	GLUT.glutIdleFunc(render)   # Draw any graphics or shapes in the render function at all times
 	GLUT.glutMainLoop()  # Keeps the window created above displaying/running in a loop

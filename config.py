@@ -5,3 +5,4 @@ width = 0
 height = 0
 
 mode = 0
+scene_name = ""
