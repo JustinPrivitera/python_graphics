@@ -6,6 +6,11 @@ import OpenGL.GL as GL
 from vec3 import *
 import config
 
+class geom_obj:
+	def __init__(self, pos, color):
+		self.pos = pos
+		self.color = color
+
 class square:
 	def __init__(self, pos, side_length, velocity, color):
 		self.pos = pos # lower left corner
