@@ -7,3 +7,5 @@ The purpose of this project is threefold:
 3) Learn more about the graphics pipeline and build a framework for 2D (3D maybe later?) rendering
 
 Requires PyOpenGL
+
+![Screenshot](screenshot.jpg)
