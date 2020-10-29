@@ -8,4 +8,4 @@ The purpose of this project is threefold:
 
 Requires PyOpenGL
 
-![Screenshot](screenshot.jpg)
+![Screenshot](screenshot.png)
