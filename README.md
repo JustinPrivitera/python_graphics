@@ -10,4 +10,4 @@ Requires PyOpenGL
 
 ![Screenshot](screenshot.png)
 
-Currently renders 50 squares in random positions and gives them a random velocity vector. The squares collide with the edges borders of the window and velocity is updated accordingly.
+Currently renders 50 squares in random positions and gives them a random velocity vector. The squares collide with the borders of the window and velocity is updated accordingly.
