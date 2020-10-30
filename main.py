@@ -64,6 +64,8 @@ def init_geom():
 		shapes.append(triangle(a, b, c, velocity, color))
 	elif (config.mode == 1):
 		shapes = make_squares(50)
+	elif (config.mode == 2):
+		shapes = make_points(1000)
 
 def init():
 	global lasttime
@@ -86,8 +88,11 @@ def init():
 			config.scene_name = "squares demo"
 			config.mode = 1
 		elif (sys.argv[1] == "2"):
-			config.scene_name = "galaxy demo"
+			config.scene_name = "points demo"
 			config.mode = 2
+		elif (sys.argv[1] == "3"):
+			config.scene_name = "galaxy demo"
+			config.mode = 3
 			print("not yet implemented")
 			return
 		else:

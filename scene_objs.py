@@ -13,6 +13,27 @@ class geom_obj:
 	def update(self, frametime):
 		pass
 
+class point(geom_obj):
+	def __init__(self, pos, velocity, acceleration, color):
+		geom_obj.__init__(self, color)
+		self.pos = pos
+		self.velocity = velocity
+		self.acceleration = acceleration
+
+	def draw(self):
+		GL.glColor3f(self.color.x, self.color.y, self.color.z)
+		GL.glBegin(GL.GL_POINTS)
+		GL.glVertex3f(self.pos.x, self.pos.y, self.pos.z)
+		GL.glEnd()
+
+	def update(self, frametime):
+		# need a method to update acceleration OUTSIDE this object
+		self.velocity = self.acceleration * frametime + self.velocity
+		self.pos = self.pos + self.velocity * frametime
+
+# class physical_point(geom_obj):
+	
+
 class triangle(geom_obj):
 	def __init__(self, a, b, c, velocity, color):
 		geom_obj.__init__(self, color)
@@ -78,3 +99,14 @@ def make_squares(how_many):
 		color = vec3(random(), random(), random())
 		squares.append(square(position, side_length, velocity, color))
 	return squares
+
+def make_points(how_many):
+	points = []
+	max_speed = 300
+	for i in range(0, how_many):
+		pos = vec3(random() * config.width, random() * config.height, 0)
+		velocity = vec3(((2 * random()) - 1) * max_speed, ((2 * random()) - 1) * max_speed, 0)
+		acceleration = vec3()
+		color = vec3(random(), random(), random())
+		points.append(point(pos, velocity, acceleration, color))
+	return points
