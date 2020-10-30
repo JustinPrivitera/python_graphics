@@ -28,6 +28,7 @@ class point(geom_obj):
 
 	def update(self, frametime):
 		# need a method to update acceleration OUTSIDE this object
+		# print(self.acceleration)
 		self.velocity = self.acceleration * frametime + self.velocity
 		self.pos = self.pos + self.velocity * frametime
 
@@ -106,9 +107,8 @@ class square(geom_obj):
 		if self.pos.y < 0:
 			self.velocity.y = abs(self.velocity.y)
 
-def make_squares(how_many):
+def make_squares(how_many, max_speed = 700):
 	squares = []
-	max_speed = 700
 	for i in range(0, how_many):
 		side_length = 100
 		position = vec3(random() * (config.width - side_length), random() * (config.height - side_length), 0)
@@ -117,25 +117,23 @@ def make_squares(how_many):
 		squares.append(square(position, side_length, velocity, color))
 	return squares
 
-def make_points(how_many):
+def make_points(how_many, max_speed = 300, max_h = config.height, max_w = config.width, min_h = 0, min_w = 0):
 	points = []
-	max_speed = 300
 	for i in range(0, how_many):
-		pos = vec3(random() * config.width, random() * config.height, 0)
+		pos = vec3(random() * (max_w - min_w) + min_w, random() * (max_h - min_h) + min_h, 0)
 		velocity = vec3(((2 * random()) - 1) * max_speed, ((2 * random()) - 1) * max_speed, 0)
 		acceleration = vec3()
-		color = vec3(random(), random(), random())
+		color = vec3(1,1,1)
+		# color = vec3(random(), random(), random())
 		points.append(point(pos, velocity, acceleration, color))
 	return points
 
-def make_physical_points(how_many):
+def make_physical_points(how_many, max_speed = 300):
 	points = []
-	max_speed = 300
 	for i in range(0, how_many):
 		pos = vec3(random() * config.width, random() * config.height, 0)
 		velocity = vec3(((2 * random()) - 1) * max_speed, ((2 * random()) - 1) * max_speed, 0)
 		acceleration = vec3()
-		# color = vec3(random(), random(), random())
 		color = vec3(1,1,1)
 		points.append(physical_point(pos, velocity, acceleration, color))
 	return points

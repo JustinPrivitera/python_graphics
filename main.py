@@ -34,6 +34,7 @@ def update(frametime):
 
 def render():
 	frametime = get_last_elapsed_time()
+	domath()
 	update(frametime)
 
 	print("framerate: " + str(round(1 / frametime)) + "      ", end = "\r")
@@ -53,21 +54,38 @@ def render():
 
 	GLUT.glutSwapBuffers()
 
+def domath():
+	global shapes
+	if config.mode == config.GALAXY_DEMO:
+		for i in range(0, len(shapes)):
+			acceleration = vec3()
+			for j in range(0, len(shapes)):
+				if i != j:
+					vect = shapes[j].pos - shapes[i].pos
+					dist = vect.magnitude()
+					vect.normalize()
+					mass = 1
+					if dist > 1:
+						acceleration = acceleration + vect * (config.G * mass / (dist * dist))
+			shapes[i].acceleration = acceleration
+
 def init_geom():
 	global shapes
-	if (config.mode == 0):
+	if config.mode == config.HELLO_TRIANGLE:
 		a = vec3(100, 100, 0)
 		b = vec3(300, 100, 0)
 		c = vec3(200, 300, 0)
 		velocity = vec3(50,50,0)
 		color = vec3(0.8, 0.8, 0.0)
 		shapes.append(triangle(a, b, c, velocity, color))
-	elif (config.mode == 1):
+	elif config.mode == config.SQUARES_DEMO:
 		shapes = make_squares(50)
-	elif (config.mode == 2):
+	elif config.mode == config.POINTS_DEMO:
 		shapes = make_points(1000)
-	elif (config.mode == 3):
+	elif config.mode == config.PHYSICAL_POINTS_DEMO:
 		shapes = make_physical_points(1000)
+	elif config.mode == config.GALAXY_DEMO:
+		shapes = make_points(100, 0, 600, 800, 400, 600)
 
 def init():
 	global lasttime
@@ -80,26 +98,24 @@ def init():
 
 	# default setup
 	config.scene_name = "squares demo"
-	config.mode = 1
+	config.mode = config.SQUARES_DEMO
 
 	if (len(sys.argv) == 2):
 		if (sys.argv[1] == "0"):
 			config.scene_name = "hello triangle"
-			config.mode = 0
+			config.mode = config.HELLO_TRIANGLE
 		elif (sys.argv[1] == "1"):
 			config.scene_name = "squares demo"
-			config.mode = 1
+			config.mode = config.SQUARES_DEMO
 		elif (sys.argv[1] == "2"):
 			config.scene_name = "points demo"
-			config.mode = 2
+			config.mode = config.POINTS_DEMO
 		elif (sys.argv[1] == "3"):
 			config.scene_name = "physical points demo"
-			config.mode = 3
+			config.mode = config.PHYSICAL_POINTS_DEMO
 		elif (sys.argv[1] == "4"):
 			config.scene_name = "galaxy demo"
-			config.mode = 4
-			print("not yet implemented")
-			return
+			config.mode = config.GALAXY_DEMO
 		else:
 			print("scene does not exist")
 			return
