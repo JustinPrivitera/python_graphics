@@ -31,8 +31,25 @@ class point(geom_obj):
 		self.velocity = self.acceleration * frametime + self.velocity
 		self.pos = self.pos + self.velocity * frametime
 
-# class physical_point(geom_obj):
-	
+class physical_point(point):
+	def __init__(self, pos, velocity, acceleration, color):
+		point.__init__(self, pos, velocity, acceleration, color)
+
+	def update(self, frametime):
+		self.collide()
+		self.acceleration = self.acceleration + vec3(0,-3,0)
+		self.velocity = self.acceleration * frametime + self.velocity
+		self.pos = self.pos + self.velocity * frametime
+
+	def collide(self): # collisions with wall
+		if self.pos.x > config.width:
+			self.velocity.x = -1 * abs(self.velocity.x)
+		if self.pos.x < 0:
+			self.velocity.x = abs(self.velocity.x)
+		if self.pos.y > config.height:
+			self.velocity.y = -1 * abs(self.velocity.y)
+		if self.pos.y < 0:
+			self.velocity.y = abs(self.velocity.y)
 
 class triangle(geom_obj):
 	def __init__(self, a, b, c, velocity, color):
@@ -109,4 +126,16 @@ def make_points(how_many):
 		acceleration = vec3()
 		color = vec3(random(), random(), random())
 		points.append(point(pos, velocity, acceleration, color))
+	return points
+
+def make_physical_points(how_many):
+	points = []
+	max_speed = 300
+	for i in range(0, how_many):
+		pos = vec3(random() * config.width, random() * config.height, 0)
+		velocity = vec3(((2 * random()) - 1) * max_speed, ((2 * random()) - 1) * max_speed, 0)
+		acceleration = vec3()
+		# color = vec3(random(), random(), random())
+		color = vec3(1,1,1)
+		points.append(physical_point(pos, velocity, acceleration, color))
 	return points

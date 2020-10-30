@@ -66,6 +66,8 @@ def init_geom():
 		shapes = make_squares(50)
 	elif (config.mode == 2):
 		shapes = make_points(1000)
+	elif (config.mode == 3):
+		shapes = make_physical_points(1000)
 
 def init():
 	global lasttime
@@ -91,8 +93,11 @@ def init():
 			config.scene_name = "points demo"
 			config.mode = 2
 		elif (sys.argv[1] == "3"):
-			config.scene_name = "galaxy demo"
+			config.scene_name = "physical points demo"
 			config.mode = 3
+		elif (sys.argv[1] == "4"):
+			config.scene_name = "galaxy demo"
+			config.mode = 4
 			print("not yet implemented")
 			return
 		else:
