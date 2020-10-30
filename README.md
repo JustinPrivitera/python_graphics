@@ -8,11 +8,11 @@ The purpose of this project is threefold:
 
 Requires PyOpenGL, GLFW
 
-![Screenshot](screenshot.png)
+![Screenshot](images/screenshot.png)
 
 Scene 1 renders 50 squares in random positions and gives them a random velocity vector. The squares collide with the borders of the window and velocity is updated accordingly.
 
-![Screenshot2](screenshot2.png)
+![Screenshot2](images/screenshot2.png)
 (You may need to open this image at full resolution to see the points!)
 
 Scene 3 renders 1000 points in random positions and gives them a random velocity vector. They collide with the window borders and also accelerate due to gravity.
